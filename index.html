@@ -3,17 +3,90 @@
 <head>
 	<meta charset="utf-8">
 	<script>
+		let url;
+		const setSearchEngine = () => {
+			
+			let searchEngine = document.querySelector("input[name=engine]:checked");
+			let searchBox = document.getElementById("searchBox");
+			let query = "?q=";
+
+			let actions = {
+				"google":"https://www.google.com/search",
+				"duckDuckGo":"https://duckduckgo.com/",
+				"bing":"https://www.bing.com/search",
+				"ask":"https://www.ask.com/web"
+			}
+
+			url = actions[searchEngine.value];
+			query+=searchBox.value;
+
+			let form = document.getElementById("searchForm");
+			form.setAttribute("action",url+query);
+			// console.log(form.action+url+query);
+			form.submit();
+
+			// if(searchEngine.value === "google"){
+			// 	url = "https://www.google.com/search";
+			// }else if(searchEngine.value === "duckDuckGo"){
+			// 	url = "https://duckduckgo.com/";
+			// }else if(searchEngine.value === "bing"){
+			// 	url = "https://www.bing.com/search";
+			// }else {
+			// 	url = "https://www.ask.com/web";
+			// }
+
+		}
 		// TODO: create a handler
     window.addEventListener("load", function(){
-        // TODO: register the handler
+        let form = document.getElementById("searchForm");
+		form.addEventListener("submit", function(event){
+			let searchEngine = document.querySelector("input[name=engine]:checked");
+			let searchBox = document.getElementById("searchBox");
+			if(searchEngine && searchBox.value != ""){
+				console.log(searchEngine.value);
+				setSearchEngine();
+			}
+			event.preventDefault();		
+		});
     });
 	</script>
+	<style>
+		label{
+			padding:10px;
+		}
+		body {
+			min-height: 500px;
+			display: flex;
+			/* text-align: center; */
+			justify-content: center;
+			align-items: center;
+			font-size: 1.5rem;
+			background-image: linear-gradient(130deg,hsl(161, 98%, 75%),hsl(161, 98%, 25%)) ;
+			
+		}
+
+		form {
+			/* margin: 0 auto; */
+			display: flex;
+			/* min-height: 100%; */
+			
+		}
+	</style>
 </head>
 
 <body>
 
-	<form id="searchForm">
+	<form id="searchForm" >
     <!-- TODO: add form elements -->
+		<input type="text" name="q" id="searchBox">
+
+		<label>Google<input type="radio" name="engine" value="google"></label>
+		<label>DuckDuckGo<input type="radio" name="engine" value="duckDuckGo"></label>
+		<label>Bing<input type="radio" name="engine" value="bing"></label>
+		<label>Ask<input type="radio" name="engine" value="ask"></label>
+
+		<button>Go!</button>
+
 	</form>
 
 </body>
